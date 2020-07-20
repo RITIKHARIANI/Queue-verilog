@@ -34,7 +34,7 @@ module tb;
   test_vecs[19][9] = 1'b0; test_vecs[19][8] = 1'b1; test_vecs[19][7:0] = 8'hxx;
   end
   initial {wr, rd, din} = 0;
-  cq cq_0 (clk, reset, wr, rd, din[7:0], empty, full, dout[7:0]);
+  queue queue_0 (clk, reset, wr, rd, din[7:0], empty, full, dout[7:0]);
   initial begin
       #6 for(i=0;i<`TESTVECS;i=i+1)
         begin #10 {wr, rd, din}=test_vecs[i]; end

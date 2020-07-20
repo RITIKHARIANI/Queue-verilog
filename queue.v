@@ -19,7 +19,7 @@ module ThreeBitReg(input wire clk, reset, load, input wire[2:0] inp, output wire
 	dfrl dfrl_2(clk, reset, load, inp[2], outp[2]);
 endmodule
 
-module cq(input wire clk, reset, wr, rd, input wire[7:0] din, output wire empty, full, output wire[7:0] dout);
+module queue(input wire clk, reset, wr, rd, input wire[7:0] din, output wire empty, full, output wire[7:0] dout);
     // Local variables
     wire [2:0] rd_addr, wr_addr;
     wire [2:0] rd_inc, wr_inc;

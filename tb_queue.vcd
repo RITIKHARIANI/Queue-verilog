@@ -1,5 +1,5 @@
 $date
-	Tue Jul  7 16:13:49 2020
+	Mon Jul 20 15:50:25 2020
 $end
 $version
 	Icarus Verilog
@@ -17,7 +17,7 @@ $var reg 1 & rd $end
 $var reg 1 ' reset $end
 $var reg 1 ( wr $end
 $var integer 32 ) i [31:0] $end
-$scope module cq_0 $end
+$scope module queue_0 $end
 $var wire 1 $ clk $end
 $var wire 8 * din [7:0] $end
 $var wire 1 & rd $end

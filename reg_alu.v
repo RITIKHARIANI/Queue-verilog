@@ -9,21 +9,21 @@ module reg_file (input wire clk, reset, wr, input wire [2:0] rd_addr_a, rd_addr_
 
 // Instantiate modules here
 
-	STBitDemux8 writer(wr_addr, d_in, t0, t1, t2, t3, t4, t5, t6, t7);
+	StoreBitDemux8 writer(wr_addr, d_in, t0, t1, t2, t3, t4, t5, t6, t7);
 
 	demux8 load_demux(wr, wr_addr[2], wr_addr[1], wr_addr[0], wrload);
 
-	STBitReg reg_0(clk, reset, wrload[0], d_in, reg_op0);
-	STBitReg reg_1(clk, reset, wrload[1], d_in, reg_op1);
-	STBitReg reg_2(clk, reset, wrload[2], d_in, reg_op2);
-	STBitReg reg_3(clk, reset, wrload[3], d_in, reg_op3);
-	STBitReg reg_4(clk, reset, wrload[4], d_in, reg_op4);
-	STBitReg reg_5(clk, reset, wrload[5], d_in, reg_op5);
-	STBitReg reg_6(clk, reset, wrload[6], d_in, reg_op6);
-	STBitReg reg_7(clk, reset, wrload[7], d_in, reg_op7);
+	StoreBitReg reg_0(clk, reset, wrload[0], d_in, reg_op0);
+	StoreBitReg reg_1(clk, reset, wrload[1], d_in, reg_op1);
+	StoreBitReg reg_2(clk, reset, wrload[2], d_in, reg_op2);
+	StoreBitReg reg_3(clk, reset, wrload[3], d_in, reg_op3);
+	StoreBitReg reg_4(clk, reset, wrload[4], d_in, reg_op4);
+	StoreBitReg reg_5(clk, reset, wrload[5], d_in, reg_op5);
+	StoreBitReg reg_6(clk, reset, wrload[6], d_in, reg_op6);
+	StoreBitReg reg_7(clk, reset, wrload[7], d_in, reg_op7);
 
-	STBitMux8 read_a(rd_addr_a, reg_op0, reg_op1,  reg_op2,  reg_op3,  reg_op4,  reg_op5,  reg_op6,  reg_op7, d_out_a);
-	STBitMux8 read_b(rd_addr_b, reg_op0, reg_op1,  reg_op2,  reg_op3,  reg_op4,  reg_op5,  reg_op6,  reg_op7, d_out_b);
+	StoreBitMux8 read_a(rd_addr_a, reg_op0, reg_op1,  reg_op2,  reg_op3,  reg_op4,  reg_op5,  reg_op6,  reg_op7, d_out_a);
+	StoreBitMux8 read_b(rd_addr_b, reg_op0, reg_op1,  reg_op2,  reg_op3,  reg_op4,  reg_op5,  reg_op6,  reg_op7, d_out_b);
 
 endmodule
 
@@ -37,13 +37,13 @@ module reg_alu (input wire clk, reset, sel, wr, input wire [1:0] op, input wire 
 
 // Instantiate modules here
 	reg_file reg_m(clk, reset, wr, rd_addr_a, rd_addr_b, wr_addr, reg_din, d_out_a, d_out_b);
-	STBitMux2 din_mux(d_in, alu_outp, sel, reg_din);
+	StoreBitMux2 din_mux(d_in, alu_outp, sel, reg_din);
 	alu alu_m(op, d_out_a, d_out_b, alu_outp, alu_cout);
 	dfr cout_dfr(clk, reset, alu_cout, cout);
 	
 endmodule
 
-module STBitReg(input wire clk, rst, load, input wire[7:0] inp, output wire [7:0] outp);
+module StoreBitReg(input wire clk, rst, load, input wire[7:0] inp, output wire [7:0] outp);
 
 	dfrl dfrl_0( clk, rst, load, inp[0], outp[0] );
 	dfrl dfrl_1( clk, rst, load, inp[1], outp[1] );
@@ -56,7 +56,7 @@ module STBitReg(input wire clk, rst, load, input wire[7:0] inp, output wire [7:0
 
 endmodule
 
-module STBitDemux8(input wire [2:0] s, input wire [7:0] inp, output [7:0] o0, o1, o2, o3, o4, o5, o6, o7);
+module StoreBitDemux8(input wire [2:0] s, input wire [7:0] inp, output [7:0] o0, o1, o2, o3, o4, o5, o6, o7);
 
 	demux8 b_0( inp[0], s[2], s[1], s[0], { o0[0], o1[0], o2[0], o3[0], o4[0], o5[0], o6[0], o7[0] } );
 	demux8 b_1( inp[1], s[2], s[1], s[0], { o0[1], o1[1], o2[1], o3[1], o4[1], o5[1], o6[1], o7[1] } );
@@ -69,7 +69,7 @@ module STBitDemux8(input wire [2:0] s, input wire [7:0] inp, output [7:0] o0, o1
 
 endmodule
 
-module STBitMux8(input wire [2:0] s, input wire [7:0] i0, i1, i2, i3, i4, i5, i6, i7, output wire [7:0] out);
+module StoreBitMux8(input wire [2:0] s, input wire [7:0] i0, i1, i2, i3, i4, i5, i6, i7, output wire [7:0] out);
 
 	mux8 b_0( { i0[0], i1[0], i2[0], i3[0], i4[0], i5[0], i6[0], i7[0] }, s[0], s[1], s[2], out[0] );
 	mux8 b_1( { i0[1], i1[1], i2[1], i3[1], i4[1], i5[1], i6[1], i7[1] }, s[0], s[1], s[2], out[1] );
@@ -82,7 +82,7 @@ module STBitMux8(input wire [2:0] s, input wire [7:0] i0, i1, i2, i3, i4, i5, i6
 	
 endmodule
 
-module STBitMux2(input [7:0] i0, i1, input s, output [7:0] o);
+module StoreBitMux2(input [7:0] i0, i1, input s, output [7:0] o);
     mux2 op_0( i0[0], i1[0], s, o[0] );
     mux2 op_1( i0[1], i1[1], s, o[1] );
     mux2 op_2( i0[2], i1[2], s, o[2] );
